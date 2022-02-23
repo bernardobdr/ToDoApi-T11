@@ -47,5 +47,5 @@ npm start
 
 ---
 
-## Sobre as branchs
+## Sobre as branches
 Com o objetivo de manter o histórico da evolução do projeto de fácil acesso, cada branch desse repositório irá representar o estado do projeto ao final da aula.
