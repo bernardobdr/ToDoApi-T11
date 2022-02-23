@@ -4,6 +4,9 @@ Projeto de educacional do curso de Web Dev Full Stack da [Resilia Educação](ht
 
 Projeto realizado utilizando o [Node.js](https://nodejs.org/en/) com framework [Express](https://expressjs.com/).
 
+## Objetivo
+Esse projeto tem como objetivo criar uma API RESTful de uma To Do List, onde será possível aplicar as operações CRUD nas entidades `Usuario` e `Tarefa`.
+
 ## Pré-Requisitos
 
 * Node.js  v.16.14.0
@@ -32,7 +35,17 @@ Iniciando o servidor:
 npm start
 ```
 
+---
+
 ## Rotas implementadas
 
- * GET /usuario 
+#### Usuário
+ * GET /usuario
 
+#### Tarefa
+ * GET /tarefa 
+
+---
+
+## Sobre as branchs
+Com o objetivo de manter o histórico da evolução do projeto de fácil acesso, cada branch desse repositório irá representar o estado do projeto ao final da aula.
