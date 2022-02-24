@@ -41,9 +41,11 @@ npm start
 
 #### Usuário
  * GET /usuario
+ * POST /usuario
 
 #### Tarefa
- * GET /tarefa 
+ * GET /tarefa
+ * POST /tarefa
 
 ---
 
