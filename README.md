@@ -12,6 +12,10 @@ Esse projeto tem como objetivo criar uma API RESTful de uma To Do List, onde ser
 * Node.js  v.16.14.0
 * NPM v.8.3.1
 
+## Pacotes utilizados
+* [Express](https://www.npmjs.com/package/express) v.4.17.3
+* [Nodemon](https://www.npmjs.com/package/nodemon) v.2.0.15
+
 ## Instalação da Aplicação
 
 Abra o terminal/Powershell e rode os comandos abaixo:
