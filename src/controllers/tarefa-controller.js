@@ -11,13 +11,15 @@ const tarefaController = (app)=>{
     })
 
     app.post('/tarefa',(req, res)=>{
+        const body = req.body
         /* 
             alguma funcao que insira coisas
         */
 
         // Resposta com o retorno do processo
         res.json({
-            "msg": "Tarefa inserida com sucesso"
+            "msg": `Tarefa ${body.titulo} inserida com sucesso`,
+            "tarefa" : body
         })
     })
 }

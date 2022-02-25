@@ -12,13 +12,15 @@ const usuarioController = (app)=>{
     })
 
     app.post('/usuario',(req, res)=>{
+        const body = req.body
         /* 
             alguma funcao que insira coisas
         */
 
         // Resposta com o retorno do processo
         res.json({
-            "msg": "Usuario inserido com sucesso"
+            "msg": `Usuário ${body.nome} inserido com sucesso`,
+            "usuario": body
         })
     })
 
