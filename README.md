@@ -45,11 +45,91 @@ npm start
 
 #### Usuário
  * GET /usuario
+ 
+    Schema da resposta
+    ```
+    {
+        usuarios: [
+            {
+                "nome" : <String>,
+                "usuario: <String>,
+                "senha" : <String>
+            }
+        ],
+        erro: <Boleano>
+
+    }
+    ```
+
  * POST /usuario
+
+     Schema da requisição
+    ```
+    {
+        "nome" : <String>,
+        "usuario: <String>,
+        "senha" : <String>
+    }
+    ```
+
+    Schema da resposta
+    ```
+    {   
+        msg: <String>
+        usuario: {
+            "nome" : <String>,
+            "usuario: <String>,
+            "senha" : <String>
+        },
+        erro: <Boleano>
+    }
+    ```
 
 #### Tarefa
  * GET /tarefa
+    
+    Schema da resposta
+    ```
+    {
+        tarefas: [
+            {
+                "titulo" : <String>,
+                "descricao: <String>,
+                "status" : <String>
+                "dataCriação" : <String>
+            }
+        ],
+        erro: <Boleano>
+
+    }
+    ```
+
+
  * POST /tarefa
+
+      Schema da requisição
+    ```
+    {
+        "titulo" : <String>,
+        "descricao: <String>,
+        "status" : #{"Fazendo", "A fazer", "Feito"}
+    }
+    ```
+
+    Schema da resposta
+    ```
+    {
+        msg: <String>
+        tarefa: {
+            "titulo" : <String>,
+            "descricao: <String>,
+            "status" : <String>
+            "dataCriação" : <String>
+        },
+        erro: <Boleano>
+    }
+    ```
+
 
 ---
 
