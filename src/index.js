@@ -7,8 +7,9 @@ import tarefaController from "./controllers/tarefa-controller.js";
 
 // importando os middlewares
 import generalMiddleware from "./middleware/general-middleware.js";
-import usuarioMiddleware from "./middleware/usuario-middleware.js";
-import tarefaMiddleware from "./middleware/tarefa-middleware.js";
+
+// importando banco de dados
+import bd from './database/bd.js'
 
 // Instanciando/criando servidor
 const app = express()
@@ -21,12 +22,11 @@ app.use(express.json())
 
 // Chamada dos Middlewares especificos das rotas
 generalMiddleware(app) // vai ser rodados em todas as rotas
-usuarioMiddleware(app) // vai ser rodado só para rotas de usuario
-tarefaMiddleware(app)  // vai ser rodado só para rotas de tarefa
 
-// chamando os controllers
-usuarioController(app)
-tarefaController(app)
+// chamando os controllers passando o servidor (app) 
+// e o banco de dados (bd) como parâmetro
+usuarioController(app, bd)
+tarefaController(app, bd)
 
 // Abrindo o servidor na porta escolhida
 app.listen(port, ()=>{
