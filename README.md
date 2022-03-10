@@ -43,8 +43,9 @@ npm start
 
 ## Rotas implementadas
 
-#### Usuário
- * GET /usuario
+### Usuário
+
+ * **GET /usuario**
  
     Schema da resposta
     ```
@@ -61,7 +62,24 @@ npm start
     }
     ```
 
- * POST /usuario
+ * **GET /usuario/email/{email}**
+ 
+    Schema da resposta
+    ```
+    {
+        usuarios: [
+            {
+                "nome" : <String>,
+                "usuario: <String>,
+                "senha" : <String>
+            }
+        ],
+        erro: <Boleano>
+
+    }
+    ```
+
+ * **POST /usuario**
 
      Schema da requisição
     ```
@@ -85,8 +103,43 @@ npm start
     }
     ```
 
-#### Tarefa
- * GET /tarefa
+ * **PUT /usuario/email/{email}**
+
+     Schema da requisição
+    ```
+    {
+        "nome" : <String>,
+        "usuario: <String>,
+        "senha" : <String>
+    }
+    ```
+
+    Schema da resposta
+    ```
+    {   
+        msg: <String>
+        usuario: {
+            "nome" : <String>,
+            "usuario: <String>,
+            "senha" : <String>
+        },
+        erro: <Boleano>
+    }
+    ```
+
+ * **DELETE /usuario/email/{email}**
+
+    Schema da resposta
+    ```
+    {   
+        msg: <String>
+        erro: <Boleano>
+    }
+    ```
+
+### Tarefa
+
+ * **GET /tarefa**
     
     Schema da resposta
     ```
@@ -105,7 +158,26 @@ npm start
     ```
 
 
- * POST /tarefa
+ * **GET /tarefa/titulo/{titulo}**
+
+    Schema da resposta
+    ```
+    {
+        tarefas: [
+            {
+                "titulo" : <String>,
+                "descricao: <String>,
+                "status" : <String>
+                "dataCriação" : <String>
+            }
+        ],
+        erro: <Boleano>
+
+    }
+    ```
+
+
+ * **POST /tarefa**
 
       Schema da requisição
     ```
@@ -130,6 +202,41 @@ npm start
     }
     ```
 
+ * **PUT /tarefa/titulo/{titulo}**
+
+      Schema da requisição
+    ```
+    {
+        "titulo" : <String>,
+        "descricao: <String>,
+        "status" : #{"Fazendo", "A fazer", "Feito"}
+    }
+    ```
+
+    Schema da resposta
+    ```
+    {
+        msg: <String>
+        tarefa: {
+            "titulo" : <String>,
+            "descricao: <String>,
+            "status" : <String>
+            "dataCriação" : <String>
+        },
+        erro: <Boleano>
+    }
+    ```
+
+
+ * **DELETE /tarefa/titulo/{titulo}**
+
+    Schema da resposta
+    ```
+    {
+        msg: <String>
+        erro: <Boleano>
+    }
+    ```
 
 ---
 

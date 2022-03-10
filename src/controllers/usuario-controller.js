@@ -13,6 +13,20 @@ const usuarioController = (app, bd)=>{
         })
     })
 
+    app.get('/usuario/email/:email', (req, res)=>{
+        // Pegando parametro que sera utilizado para o filtro
+        const email = req.params.email
+
+        // Pesquisa o usuario no banco de dados
+        const usuarioEncontrado = bd.usuarios.filter(usuario=>(usuario.email == email))
+
+        // Retorna o usuário encontrado
+        res.json({
+            "usuario": usuarioEncontrado,
+            "erro": false
+        })
+    })
+
     app.post('/usuario',(req, res)=>{
         // Recebe o corpo da requisição
         const body = req.body
@@ -39,8 +53,58 @@ const usuarioController = (app, bd)=>{
                 "msg": error.message,
                 "erro": true
             })
+        }  
+    })
+
+    app.delete('/usuario/email/:email', (req, res)=>{
+        // Pegando parametro que sera utilizado para o filtro
+        const email = req.params.email
+
+        // remove o usuário do banco de dados
+        const novoDB = bd.usuarios.filter(usuario=>(usuario.email !== email))
+        bd.usuarios = novoDB
+
+        // Resposta com o retorno
+        res.json({
+            "msg": `Usuário de email ${email} excluido com sucesso`,
+            "erro": false
+        })
+    })
+
+    app.put('/usuario/email/:email', (req, res)=>{
+        // Pegando parametro que sera utilizado para o filtro
+        const email = req.params.email
+
+        // Pegando o corpo da requisição com as informações
+        // que serão atualizados
+        const body = req.body
+
+        try {
+            // utiliza a classe para validação dos dados recebidos
+            const usuarioAtualizado = new Usuario(body.nome, body.email, body.senha)
+
+            // Atualiza o usuario no banco de dados
+            bd.usuarios = bd.usuarios.map(usuario => {
+                if(usuario.email === email){
+                    return usuarioAtualizado
+                }
+                return usuario    
+            });
+
+            // Resposta com o retorno
+            res.json({
+                "msg": `Usuário ${usuarioAtualizado.email} atualizado com sucesso`,
+                "usuario": usuarioAtualizado,
+                "erro": false
+            })
+
+        } catch (error) {
+            // Envia o erro, caso exista
+            res.json({
+                "msg": error.message,
+                "erro": true
+            })
         }
-        
     })
 
 }
