@@ -10,6 +10,8 @@ import generalMiddleware from "./middleware/general-middleware.js";
 
 // importando banco de dados
 import bd from './database/bd.js'
+// banco de dados do sqlite
+import database from './database/sqlite-db.js'
 
 // Instanciando/criando servidor
 const app = express()
@@ -25,7 +27,7 @@ generalMiddleware(app) // vai ser rodados em todas as rotas
 
 // chamando os controllers passando o servidor (app) 
 // e o banco de dados (bd) como parâmetro
-usuarioController(app, bd)
+usuarioController(app, database)
 tarefaController(app, bd)
 
 // Abrindo o servidor na porta escolhida
