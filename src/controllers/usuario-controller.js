@@ -1,77 +1,38 @@
 import Usuario from '../models/Usuario.js'
-import UsuarioDAO from '../DAO/UsuarioDAO.js'
 
 const usuarioController = (app, bd)=>{
-    const usuarioDAO = new UsuarioDAO(bd)
+    const usuarioModel = new Usuario(bd)
 
-    app.get('/usuario', (req, res)=>{
-        usuarioDAO.pegaTodosUsuarios()
-        .then((resposta)=>{
-            res.json(resposta)
-        })
-        .catch((erro)=>{
-            res.json(erro)
-        })
+    app.get('/usuario', async (req, res)=>{
+
+        res.json(await usuarioModel.pegaTodosUsuarios())
+
     })
 
-    app.get('/usuario/email/:email', (req, res)=>{
+    app.get('/usuario/email/:email', async (req, res)=>{
         // Pegando parametro que sera utilizado para o filtro
         const email = req.params.email
 
         // Pesquisa o usuario no banco de dados
-        usuarioDAO.pegaUmUsuario(email)
-        .then((resposta)=>{
-            res.json(resposta)
-        })
-        .catch((erro)=>{
-            res.json(erro)
-        })
+        res.json(await usuarioModel.pegaUmUsuario(email))
     })
 
-    app.post('/usuario',(req, res)=>{
+    app.post('/usuario',async (req, res)=>{
         // Recebe o corpo da requisição
         const body = req.body
-
-        // Como temos validações na nossa model, usamos o try/catch
-        // para pegar esse erro e enviar como mensagem para nosso cliente
-        try {
-            // cria uma instancia de Usuario com validação dos dados
-            // apartir do corpo que foi recebido
-            const novoUsuario = new Usuario(body.nome, body.email, body.senha)
-
-            // insere a instância do usuario no banco de dados
-            usuarioDAO.insereUsuario(novoUsuario)
-            .then((resposta)=>{
-                res.json(resposta)
-            })
-            .catch((erro)=>{
-                res.json(erro)
-            })
-
-        } catch (error) {
-            // Envia o erro, caso exista
-            res.json({
-                "msg": error.message,
-                "erro": true
-            })
-        }  
+        res.json(await usuarioModel.insereUsuario(body))  
     })
 
-    app.delete('/usuario/id/:id', (req, res)=>{
+    app.delete('/usuario/id/:id', async (req, res)=>{
         // Pegando parametro que sera utilizado para o filtro
         const id = req.params.id
 
         // remove o usuário do banco de dados
-        usuarioDAO.deletaUsuario(id)
-        .then((resposta)=>{
-            res.json(resposta)
-        })
-        .catch((erro)=>{
-            res.json(erro)
-        })
+        res.json(await usuarioModel.deletaUsuario(id))
+
     })
 
-    app.put('/usuario/id/:id', (req, res)=>{
+    app.put('/usuario/id/:id', async (req, res)=>{
         // Pegando parametro que sera utilizado para o filtro
         const id = req.params.id
 
@@ -79,26 +40,8 @@ const usuarioController = (app, bd)=>{
         // que serão atualizados
         const body = req.body
 
-        try {
-            // utiliza a classe para validação dos dados recebidos
-            const usuarioAtualizado = new Usuario(body.nome, body.email, body.senha)
-
-            // Atualiza o usuario no banco de dados
-            usuarioDAO.atualizaUsuario(id, usuarioAtualizado)
-            .then((resposta)=>{
-                res.json(resposta)
-            })
-            .catch((erro)=>{
-                res.json(erro)
-            })
-
-        } catch (error) {
-            // Envia o erro, caso exista
-            res.json({
-                "msg": error.message,
-                "erro": true
-            })
-        }
+        // Atualiza o usuario no banco de dados
+        res.json(await usuarioModel.atualizaUsuario(id, body))
     })
 
 }

@@ -1,77 +1,39 @@
-import TarefaDAO from '../DAO/TarefaDAO.js'
 import Tarefa from '../models/Tarefa.js'
 
 const tarefaController = (app, bd)=>{
-    const tarefaDAO = new TarefaDAO(bd)
+    const tarefaModel = new Tarefa(bd)
 
-    app.get('/tarefa', (req, res)=>{
+    app.get('/tarefa', async (req, res)=>{
         // Buscando informações no banco de dados
-        tarefaDAO.pegaTodasTarefas()
-        .then((resposta)=>{
-            res.json(resposta)
-        })
-        .catch((erro)=>{
-            res.json(erro)
-        })
+        res.json(await tarefaModel.pegaTodasTarefas())
+
     })
 
-    app.get('/tarefa/titulo/:titulo', (req, res)=>{
+    app.get('/tarefa/titulo/:titulo', async (req, res)=>{
         // Pegando parametro que sera utilizado para o filtro
         const titulo = req.params.titulo
 
         // Pesquisa a tarefa no banco de dados
-        tarefaDAO.pegaUmaTarefa(titulo)
-        .then((resposta)=>{
-            res.json(resposta)
-        })
-        .catch((erro)=>{
-            res.json(erro)
-        })
+        res.json(await tarefaModel.pegaUmaTarefa(titulo))
     })
 
-    app.post('/tarefa',(req, res)=>{
+    app.post('/tarefa', async (req, res)=>{
         // Recebe o corpo da requisição
         const body = req.body
 
-        // Como temos validações na nossa model, usamos o try/catch
-        // para pegar esse erro e enviar como mensagem para nosso cliente
-        try {
-            // cria uma instancia de Tarefa com validação dos dados
-            // apartir do corpo que foi recebido
-            const novaTarefa = new Tarefa(body.titulo, body.descricao, body.status, body.idUsuario)
-
-            // insere a instância da tarefa no banco de dados
-            tarefaDAO.insereTarefa(novaTarefa)
-            .then((resposta)=>{
-                res.json(resposta)
-            })
-            .catch((erro)=>{
-                res.json(erro)
-            })
-        } catch (error) {
-            // Envia o erro, caso exista
-            res.json({
-                "msg": error.message,
-                "erro": true
-            })
-        }
+        res.json(await tarefaModel.insereTarefa(body))
     })
 
-    app.delete('/tarefa/id/:id', (req, res)=>{
+    app.delete('/tarefa/id/:id', async (req, res)=>{
         // Pegando parametro que sera utilizado para o filtro
         const id = req.params.id
 
         // remove a tarefa do banco de dados
-        tarefaDAO.deletaTarefa(id)
-        .then((resposta)=>{
-            res.json(resposta)
-        })
-        .catch((erro)=>{
-            res.json(erro)
-        })
+        res.json(await tarefaModel.deletaTarefa(id))
+
     })
 
-    app.put('/tarefa/id/:id', (req, res)=>{
+    app.put('/tarefa/id/:id', async (req, res)=>{
         // Pegando parametro que sera utilizado para o filtro
         const id = req.params.id
 
@@ -79,26 +41,7 @@ const tarefaController = (app, bd)=>{
         // que serão atualizados
         const body = req.body
 
-        try {
-            // utiliza a classe para validação dos dados recebidos
-            const tarefaAtualizada = new Tarefa(body.titulo, body.descricao, body.status, body.idUsuario)
-
-            // Atualiza a tarefa no banco de dados
-            tarefaDAO.atualizaTarefa(id, tarefaAtualizada)
-            .then((resposta)=>{
-                res.json(resposta)
-            })
-            .catch((erro)=>{
-                res.json(erro)
-            })
-
-        } catch (error) {
-            // Envia o erro, caso exista
-            res.json({
-                "msg": error.message,
-                "erro": true
-            })
-        }
+        res.json(await tarefaModel.atualizaTarefa(id, body))
     })
 }
 

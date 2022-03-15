@@ -18,10 +18,9 @@ class UsuarioDAO{
         return new Promise((resolve, reject)=>{
             this.db.all('SELECT * FROM USUARIOS', (error, rows)=>{
                 if(error){
-                    reject({
-                        "mensagem": error.message,
-                        "erro": true
-                    })
+                    // No reject retorna só o erro para deixar mais f[acil tratar
+                    // os mais variados erros na propria model
+                    reject(error)
                 }else{
                     resolve({
                         "usuarios": rows,
@@ -38,10 +37,7 @@ class UsuarioDAO{
             email,
             (error, rows)=>{
                 if(error){
-                    reject({
-                        "mensagem": error.message,
-                        "erro": true
-                    })
+                    reject(error)
                 }else{
                     resolve({
                         "usuario": rows,
@@ -50,7 +46,23 @@ class UsuarioDAO{
                 }
             })
         })
+    }
 
+    pegaUmUsuarioId = (id)=>{
+        return new Promise((resolve, reject)=>{
+            this.db.all('SELECT * FROM USUARIOS WHERE ID = ?',
+            id,
+            (error, rows)=>{
+                if(error){
+                    reject(error)
+                }else{
+                    resolve({
+                        "usuario": rows,
+                        "erro": false
+                    })
+                }
+            })
+        })
     }
 
     insereUsuario = (novoUsuario) =>{
@@ -61,14 +73,11 @@ class UsuarioDAO{
             // Nós inserimos os dados a serem substituidos depois da query
             // Ou separado por vírgula (QUERY, a,b,c, callback)
             // Ou em um array (QUERY, [a,b,c] , callback)
-            this.db.run("INSERT INTO USUARIOS(NOME, EMAIL, SENHA) VALUES (?, ?, ?)",
+            this.db.run("INSERT INTO USUARIO(NOME, EMAIL, SENHA) VALUES (?, ?, ?)",
                 novoUsuario.nome, novoUsuario.email, novoUsuario.senha, 
                 (error)=>{
                 if(error){
-                    reject({
-                        "mensagem": error.message,
-                        "erro": true
-                    })
+                    reject(error)
                 }else{
                     resolve({
                         "mensagem": `Usuário ${novoUsuario.nome} inserido com sucesso`,
@@ -87,10 +96,7 @@ class UsuarioDAO{
             id,
             (error)=>{
                 if(error){
-                    reject({
-                        "mensagem": error.message,
-                        "erro": true
-                    })
+                    reject(error)
                 }else{
                     resolve({
                         "usuario": `Usuario de id ${id} deletado com sucesso`,
@@ -108,10 +114,7 @@ class UsuarioDAO{
             id,
             (error)=>{
                 if(error){
-                    reject({
-                        "mensagem": error.message,
-                        "erro": true
-                    })
+                    reject(error)
                 }else{
                     resolve({
                         "mensagem": `Usuario de id ${id} atualizado com sucesso`,

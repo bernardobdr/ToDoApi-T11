@@ -18,10 +18,7 @@ class TarefaDAO{
         return new Promise((resolve, reject)=>{
             this.db.all('SELECT * FROM TAREFAS', (error, rows)=>{
                 if(error){
-                    reject({
-                        "mensagem": error.message,
-                        "erro": true
-                    })
+                    reject(error)
                 }else{
                     resolve({
                         "tarefas": rows,
@@ -38,13 +35,28 @@ class TarefaDAO{
             titulo,
             (error, rows)=>{
                 if(error){
-                    reject({
-                        "mensagem": error.message,
-                        "erro": true
-                    })
+                    reject(error)
                 }else{
                     resolve({
                         "tarefas": rows,
+                        "erro": false
+                    })
+                }
+            })
+        })
+
+    }
+
+    pegaUmaTarefaId = (id)=>{
+        return new Promise((resolve, reject)=>{
+            this.db.all('SELECT * FROM TAREFAS WHERE ID = ?',
+            id,
+            (error, rows)=>{
+                if(error){
+                    reject(error)
+                }else{
+                    resolve({
+                        "tarefa": rows,
                         "erro": false
                     })
                 }
@@ -64,10 +76,7 @@ class TarefaDAO{
             novaTarefa.titulo, novaTarefa.descricao, novaTarefa.status, novaTarefa.dataCriacao, novaTarefa.idUsuario, 
                 (error)=>{
                 if(error){
-                    reject({
-                        "mensagem": error.message,
-                        "erro": true
-                    })
+                    reject(error)
                 }else{
                     resolve({
                         "mensagem": `Tarefa ${novaTarefa.titulo} inserida com sucesso`,
@@ -86,10 +95,7 @@ class TarefaDAO{
             id,
             (error)=>{
                 if(error){
-                    reject({
-                        "mensagem": error.message,
-                        "erro": true
-                    })
+                    reject(error)
                 }else{
                     resolve({
                         "tarefa": `Tarefa de id ${id} deletada com sucesso`,
@@ -107,10 +113,7 @@ class TarefaDAO{
             id,
             (error)=>{
                 if(error){
-                    reject({
-                        "mensagem": error.message,
-                        "erro": true
-                    })
+                    reject(error)
                 }else{
                     resolve({
                         "mensagem": `Tarefa de id ${id} atualizada com sucesso`,
