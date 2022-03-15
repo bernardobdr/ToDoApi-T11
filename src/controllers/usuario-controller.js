@@ -1,15 +1,16 @@
 import Usuario from '../models/Usuario.js'
+import UsuarioDAO from '../DAO/UsuarioDAO.js'
 
 const usuarioController = (app, bd)=>{
+    const usuarioDAO = new UsuarioDAO(bd)
 
     app.get('/usuario', (req, res)=>{
-        // Buscando informações no banco de dados
-        const todosUsuarios = bd.usuarios
-
-        //Resposta com o retorno daquilo que eu busquei
-        res.json({
-            "usuarios": todosUsuarios,
-            "erro": false
+        usuarioDAO.pegaTodosUsuarios()
+        .then((resposta)=>{
+            res.json(resposta)
+        })
+        .catch((erro)=>{
+            res.json(erro)
         })
     })
 
@@ -18,12 +19,12 @@ const usuarioController = (app, bd)=>{
         const email = req.params.email
 
         // Pesquisa o usuario no banco de dados
-        const usuarioEncontrado = bd.usuarios.filter(usuario=>(usuario.email == email))
-
-        // Retorna o usuário encontrado
-        res.json({
-            "usuario": usuarioEncontrado,
-            "erro": false
+        usuarioDAO.pegaUmUsuario(email)
+        .then((resposta)=>{
+            res.json(resposta)
+        })
+        .catch((erro)=>{
+            res.json(erro)
         })
     })
 
@@ -39,14 +40,14 @@ const usuarioController = (app, bd)=>{
             const novoUsuario = new Usuario(body.nome, body.email, body.senha)
 
             // insere a instância do usuario no banco de dados
-            bd.usuarios.push(novoUsuario)
-
-            // Resposta com o retorno do processo
-            res.json({
-                "msg": `Usuário ${novoUsuario.nome} inserido com sucesso`,
-                "usuario": novoUsuario,
-                "erro": false
+            usuarioDAO.insereUsuario(novoUsuario)
+            .then((resposta)=>{
+                res.json(resposta)
             })
+            .catch((erro)=>{
+                res.json(erro)
+            })
+
         } catch (error) {
             // Envia o erro, caso exista
             res.json({
@@ -56,24 +57,23 @@ const usuarioController = (app, bd)=>{
         }  
     })
 
-    app.delete('/usuario/email/:email', (req, res)=>{
+    app.delete('/usuario/id/:id', (req, res)=>{
         // Pegando parametro que sera utilizado para o filtro
-        const email = req.params.email
+        const id = req.params.id
 
         // remove o usuário do banco de dados
-        const novoDB = bd.usuarios.filter(usuario=>(usuario.email !== email))
-        bd.usuarios = novoDB
-
-        // Resposta com o retorno
-        res.json({
-            "msg": `Usuário de email ${email} excluido com sucesso`,
-            "erro": false
+        usuarioDAO.deletaUsuario(id)
+        .then((resposta)=>{
+            res.json(resposta)
+        })
+        .catch((erro)=>{
+            res.json(erro)
         })
     })
 
-    app.put('/usuario/email/:email', (req, res)=>{
+    app.put('/usuario/id/:id', (req, res)=>{
         // Pegando parametro que sera utilizado para o filtro
-        const email = req.params.email
+        const id = req.params.id
 
         // Pegando o corpo da requisição com as informações
         // que serão atualizados
@@ -84,18 +84,12 @@ const usuarioController = (app, bd)=>{
             const usuarioAtualizado = new Usuario(body.nome, body.email, body.senha)
 
             // Atualiza o usuario no banco de dados
-            bd.usuarios = bd.usuarios.map(usuario => {
-                if(usuario.email === email){
-                    return usuarioAtualizado
-                }
-                return usuario    
-            });
-
-            // Resposta com o retorno
-            res.json({
-                "msg": `Usuário ${usuarioAtualizado.email} atualizado com sucesso`,
-                "usuario": usuarioAtualizado,
-                "erro": false
+            usuarioDAO.atualizaUsuario(id, usuarioAtualizado)
+            .then((resposta)=>{
+                res.json(resposta)
+            })
+            .catch((erro)=>{
+                res.json(erro)
             })
 
         } catch (error) {

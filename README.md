@@ -150,7 +150,8 @@ npm start
                 "titulo" : <String>,
                 "descricao: <String>,
                 "status" : <String>
-                "dataCriação" : <String>
+                "dataCriação" : <String>,
+                "idUsuario" : <Int>
             }
         ],
         erro: <Boleano>
@@ -169,7 +170,8 @@ npm start
                 "titulo" : <String>,
                 "descricao: <String>,
                 "status" : <String>
-                "dataCriação" : <String>
+                "dataCriação" : <String>,
+                "idUsuario" : <Int>
             }
         ],
         erro: <Boleano>
@@ -185,7 +187,8 @@ npm start
     {
         "titulo" : <String>,
         "descricao: <String>,
-        "status" : #{"Fazendo", "A fazer", "Feito"}
+        "status" : #{"Fazendo", "A fazer", "Feito"},
+        "idUsuario" : <Int>
     }
     ```
 
@@ -197,7 +200,8 @@ npm start
             "titulo" : <String>,
             "descricao: <String>,
             "status" : <String>
-            "dataCriação" : <String>
+            "dataCriação" : <String>,
+            "idUsuario" : <Int>
         },
         erro: <Boleano>
     }
@@ -210,7 +214,8 @@ npm start
     {
         "titulo" : <String>,
         "descricao: <String>,
-        "status" : #{"Fazendo", "A fazer", "Feito"}
+        "status" : #{"Fazendo", "A fazer", "Feito"},
+        "idUsuario" : <Int>
     }
     ```
 
@@ -222,7 +227,8 @@ npm start
             "titulo" : <String>,
             "descricao: <String>,
             "status" : <String>
-            "dataCriação" : <String>
+            "dataCriação" : <String>,
+            "idUsuario" : <Int>
         },
         erro: <Boleano>
     }
