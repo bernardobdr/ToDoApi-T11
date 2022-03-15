@@ -2,11 +2,12 @@
 // validando as entradas
 
 class Tarefa{
-    constructor(titulo, descricao, status){
+    constructor(titulo, descricao, status, idUsuario){
         this.titulo = titulo
         this.descricao = descricao
         this.status = this._validaStatus(status)
-        this.dataCriacao = new Date().toLocaleString()
+        this.dataCriacao = new Date().toLocaleString(),
+        this.idUsuario = idUsuario
     }
 
     _validaStatus = (status)=>{

@@ -1,14 +1,17 @@
+import TarefaDAO from '../DAO/TarefaDAO.js'
 import Tarefa from '../models/Tarefa.js'
 
 const tarefaController = (app, bd)=>{
+    const tarefaDAO = new TarefaDAO(bd)
+
     app.get('/tarefa', (req, res)=>{
         // Buscando informações no banco de dados
-        const todasTarefas = bd.tarefas
-
-        //Resposta com o retorno daquilo que eu busquei
-        res.json({
-            "tarefas": todasTarefas,
-            "erro": false
+        tarefaDAO.pegaTodasTarefas()
+        .then((resposta)=>{
+            res.json(resposta)
+        })
+        .catch((erro)=>{
+            res.json(erro)
         })
     })
 
@@ -17,12 +20,12 @@ const tarefaController = (app, bd)=>{
         const titulo = req.params.titulo
 
         // Pesquisa a tarefa no banco de dados
-        const tarefaEncontrada = bd.tarefas.filter(tarefa=>(tarefa.titulo == titulo))
-
-        // Retorna a tarefa encontrada
-        res.json({
-            "tarefa": tarefaEncontrada,
-            "erro": false
+        tarefaDAO.pegaUmaTarefa(titulo)
+        .then((resposta)=>{
+            res.json(resposta)
+        })
+        .catch((erro)=>{
+            res.json(erro)
         })
     })
 
@@ -35,16 +38,15 @@ const tarefaController = (app, bd)=>{
         try {
             // cria uma instancia de Tarefa com validação dos dados
             // apartir do corpo que foi recebido
-            const novaTarefa = new Tarefa(body.titulo, body.descricao, body.status)
+            const novaTarefa = new Tarefa(body.titulo, body.descricao, body.status, body.idUsuario)
 
             // insere a instância da tarefa no banco de dados
-            bd.tarefas.push(novaTarefa)
-
-            // Resposta com o retorno do processo
-            res.json({
-                "msg": `Tarefa com título ${novaTarefa.titulo} inserida com sucesso`,
-                "tarefas": novaTarefa,
-                "erro": false
+            tarefaDAO.insereTarefa(novaTarefa)
+            .then((resposta)=>{
+                res.json(resposta)
+            })
+            .catch((erro)=>{
+                res.json(erro)
             })
         } catch (error) {
             // Envia o erro, caso exista
@@ -55,24 +57,23 @@ const tarefaController = (app, bd)=>{
         }
     })
 
-    app.delete('/tarefa/titulo/:titulo', (req, res)=>{
+    app.delete('/tarefa/id/:id', (req, res)=>{
         // Pegando parametro que sera utilizado para o filtro
-        const titulo = req.params.titulo
+        const id = req.params.id
 
         // remove a tarefa do banco de dados
-        const novoDB = bd.tarefas.filter(tarefa=>(tarefa.titulo !== titulo))
-        bd.tarefas = novoDB
-
-        // Resposta com o retorno
-        res.json({
-            "msg": `Tarefa de título ${titulo} excluida com sucesso`,
-            "erro": false
+        tarefaDAO.deletaTarefa(id)
+        .then((resposta)=>{
+            res.json(resposta)
+        })
+        .catch((erro)=>{
+            res.json(erro)
         })
     })
 
-    app.put('/tarefa/titulo/:titulo', (req, res)=>{
+    app.put('/tarefa/id/:id', (req, res)=>{
         // Pegando parametro que sera utilizado para o filtro
-        const titulo = req.params.titulo
+        const id = req.params.id
 
         // Pegando o corpo da requisição com as informações
         // que serão atualizados
@@ -80,21 +81,15 @@ const tarefaController = (app, bd)=>{
 
         try {
             // utiliza a classe para validação dos dados recebidos
-            const tarefaAtualizada = new Tarefa(body.titulo, body.descricao, body.status)
+            const tarefaAtualizada = new Tarefa(body.titulo, body.descricao, body.status, body.idUsuario)
 
             // Atualiza a tarefa no banco de dados
-            bd.tarefas = bd.tarefas.map(tarefa => {
-                if(tarefa.titulo === titulo){
-                    return tarefaAtualizada
-                }
-                return tarefa    
-            });
-
-            // Resposta com o retorno
-            res.json({
-                "msg": `Tarefa de titulo ${tarefaAtualizada.titulo} atualizada com sucesso`,
-                "tarefa": tarefaAtualizada,
-                "erro": false
+            tarefaDAO.atualizaTarefa(id, tarefaAtualizada)
+            .then((resposta)=>{
+                res.json(resposta)
+            })
+            .catch((erro)=>{
+                res.json(erro)
             })
 
         } catch (error) {
