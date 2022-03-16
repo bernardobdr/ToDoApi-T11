@@ -16,6 +16,8 @@ Esse projeto tem como objetivo criar uma API RESTful de uma To Do List, onde ser
 * [Express](https://www.npmjs.com/package/express) v.4.17.3
 * [Nodemon](https://www.npmjs.com/package/nodemon) v.2.0.15
 * [SQLite](https://www.npmjs.com/package/sqlite3)  v.5.0.0
+* [Jest](https://jestjs.io/docs/getting-started)   v.27.5.1
+* [Supertest](https://www.npmjs.com/package/supertest) v.6.2.2
 
 ## Instalação da Aplicação
 
@@ -104,7 +106,7 @@ npm start
     }
     ```
 
- * **PUT /usuario/email/{email}**
+ * **PUT /usuario/id/{id}**
 
      Schema da requisição
     ```
@@ -128,7 +130,7 @@ npm start
     }
     ```
 
- * **DELETE /usuario/email/{email}**
+ * **DELETE /usuario/id/{id}**
 
     Schema da resposta
     ```
@@ -207,7 +209,7 @@ npm start
     }
     ```
 
- * **PUT /tarefa/titulo/{titulo}**
+ * **PUT /tarefa/id/{id}**
 
       Schema da requisição
     ```
@@ -235,7 +237,7 @@ npm start
     ```
 
 
- * **DELETE /tarefa/titulo/{titulo}**
+ * **DELETE /tarefa/id/{id}**
 
     Schema da resposta
     ```
@@ -246,6 +248,12 @@ npm start
     ```
 
 ---
+
+## Rodando teste
+Para rodar os teste, utilizando o framework `Jest` e o [`Supertest`](https://jestjs.io/pt-BR/docs/testing-frameworks#expressjs) basta rodar o comando abaixo:
+```
+npm test
+```
 
 ## Sobre as branches
 Com o objetivo de manter o histórico da evolução do projeto de fácil acesso, cada branch desse repositório irá representar o estado do projeto ao final da aula.
