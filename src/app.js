@@ -13,8 +13,7 @@ import database from './database/sqlite-db.js'
 
 // Instanciando/criando servidor
 const app = express()
-// Escolhendo a porta
-const port = 3000
+
 
 // Middleware necessario para fazer o parser do 
 // JSON recebido do body em objeto
@@ -28,7 +27,5 @@ generalMiddleware(app) // vai ser rodados em todas as rotas
 usuarioController(app, database)
 tarefaController(app, database)
 
-// Abrindo o servidor na porta escolhida
-app.listen(port, ()=>{
-    console.log(`Servidor aberto na http://localhost:${port}/`)
-})
+// exporta o app para ser usado em outros arquivos
+export default app
